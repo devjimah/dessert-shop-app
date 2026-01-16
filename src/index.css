@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Red Hat Text';
+  src: url('/assets/fonts/static/RedHatText-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Red Hat Text';
+  src: url('/assets/fonts/static/RedHatText-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Red Hat Text';
+  src: url('/assets/fonts/static/RedHatText-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@theme {
+  --font-display: 'Red Hat Text', sans-serif;
+  
+  --color-rose-50: #fcf8f6;
+  --color-rose-100: #f5eeec;
+  --color-rose-300: #c9aea6;
+  --color-rose-400: #ad8a85;
+  --color-rose-500: #87635a;
+  --color-rose-900: #260f08;
+  --color-red: #c73b0f;
+  --color-red-dark: #952c0b;
+}
+
+:root {
+  font-family: 'Red Hat Text', sans-serif;
+  background-color: var(--color-rose-50);
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
