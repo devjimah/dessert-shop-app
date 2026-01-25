@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { memo } from 'react';
+import { useCart } from '../context/CartContext';
 
-export default function Cart({ cartItems, removeFromCart, confirmOrder }) {
-  const totalItems = useMemo(() => cartItems.reduce((acc, item) => acc + item.quantity, 0), [cartItems]);
-  const totalPrice = useMemo(() => cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0), [cartItems]);
+const Cart = memo(function Cart({ confirmOrder }) {
+  const { cartItems, removeFromCart, totalItems, cartTotal, tax, deliveryFee, orderTotal } = useCart();
 
   return (
     <div className="bg-white p-6 rounded-xl self-start w-full lg:w-[384px]">
@@ -36,20 +36,35 @@ export default function Cart({ cartItems, removeFromCart, confirmOrder }) {
             ))}
           </div>
 
-          <div className="mt-6 pt-6 border-t border-rose-100 flex flex-col gap-6">
-            <div className="flex items-center justify-between">
-              <span className="text-rose-900 text-sm">Order Total</span>
-              <span className="text-rose-900 font-bold text-2xl">${totalPrice.toFixed(2)}</span>
+          <div className="mt-6 pt-6 border-t border-rose-100 flex flex-col gap-3">
+             <div className="flex items-center justify-between">
+              <span className="text-rose-900 text-sm">Subtotal</span>
+              <span className="text-rose-900 font-semibold text-lg">${cartTotal.toFixed(2)}</span>
+            </div>
+             <div className="flex items-center justify-between">
+              <span className="text-rose-900 text-sm">Tax (8%)</span>
+              <span className="text-rose-900 font-semibold text-lg">${tax.toFixed(2)}</span>
+            </div>
+             <div className="flex items-center justify-between">
+              <span className="text-rose-900 text-sm">Delivery</span>
+              <span className="text-rose-900 font-semibold text-lg">${deliveryFee.toFixed(2)}</span>
             </div>
             
-            <div className="flex items-center justify-center gap-2 bg-rose-50 p-4 rounded-lg">
+            <div className="h-px bg-rose-100 my-2"></div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-rose-900 text-sm">Order Total</span>
+              <span className="text-rose-900 font-bold text-2xl">${orderTotal.toFixed(2)}</span>
+            </div>
+            
+            <div className="flex items-center justify-center gap-2 bg-rose-50 p-4 rounded-lg mt-4">
                 <img src="/assets/images/icon-carbon-neutral.svg" alt="" />
                 <p className="text-rose-900 text-sm">This is a <span className="font-semibold">carbon-neutral</span> delivery</p>
             </div>
 
             <button 
                 onClick={confirmOrder}
-                className="w-full bg-red hover:bg-red-dark text-white font-semibold py-4 rounded-full transition-colors"
+                className="w-full bg-red hover:bg-red-dark text-white font-semibold py-4 rounded-full transition-colors mt-4"
             >
                 Confirm Order
             </button>
@@ -58,4 +73,6 @@ export default function Cart({ cartItems, removeFromCart, confirmOrder }) {
       )}
     </div>
   );
-}
+});
+
+export default Cart;

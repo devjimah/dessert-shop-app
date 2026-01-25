@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import ProductCard from './ProductCard';
 
-export default function ProductList({ products, cartItems, addToCart, decreaseQuantity }) {
+const ProductList = memo(function ProductList({ products }) {
   return (
     <div>
       <h1 className="text-4xl font-bold text-rose-900 mb-8">Desserts</h1>
@@ -10,12 +10,11 @@ export default function ProductList({ products, cartItems, addToCart, decreaseQu
           <ProductCard 
             key={product.name}
             product={product}
-            cartItem={cartItems.find(item => item.name === product.name)}
-            addToCart={addToCart}
-            decreaseQuantity={decreaseQuantity}
           />
         ))}
       </div>
     </div>
   );
-}
+});
+
+export default ProductList;

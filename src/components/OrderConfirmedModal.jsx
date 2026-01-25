@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { memo } from 'react';
+import { useCart } from '../context/CartContext';
 
-export default function OrderConfirmedModal({ cartItems, startNewOrder }) {
-  const totalPrice = useMemo(() => cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0), [cartItems]);
+const OrderConfirmedModal = memo(function OrderConfirmedModal({ startNewOrder }) {
+  const { cartItems, orderTotal } = useCart();
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-end md:items-center justify-center z-50 animate-fade-in">
@@ -38,7 +39,7 @@ export default function OrderConfirmedModal({ cartItems, startNewOrder }) {
             
             <div className="flex items-center justify-between mt-6">
                 <span className="text-rose-900 text-sm">Order Total</span>
-                <span className="text-rose-900 font-bold text-2xl">${totalPrice.toFixed(2)}</span>
+                <span className="text-rose-900 font-bold text-2xl">${orderTotal.toFixed(2)}</span>
             </div>
         </div>
 
@@ -51,4 +52,6 @@ export default function OrderConfirmedModal({ cartItems, startNewOrder }) {
       </div>
     </div>
   );
-}
+});
+
+export default OrderConfirmedModal;

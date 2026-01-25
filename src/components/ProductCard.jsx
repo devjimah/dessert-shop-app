@@ -1,21 +1,33 @@
-import React from 'react';
+import React, { useMemo, memo } from 'react';
+import { useCart } from '../context/CartContext';
 
-export default function ProductCard({ product, cartItem, addToCart, decreaseQuantity }) {
-  const quantity = cartItem ? cartItem.quantity : 0;
+const ProductCard = memo(function ProductCard({ product }) {
+  const { cartItems, addToCart, decreaseQuantity } = useCart();
+  
+  const quantity = useMemo(() => {
+     const item = cartItems.find(item => item.name === product.name);
+     return item ? item.quantity : 0;
+  }, [cartItems, product.name]);
 
   return (
     <div className="flex flex-col gap-4">
       <div className="relative flex flex-col items-center">
         <div className={`relative w-full overflow-hidden rounded-lg ${quantity > 0 ? 'ring-2 ring-red' : ''}`}>
-          <picture>
-            <source media="(min-width: 1024px)" srcSet={product.image.desktop} />
-            <source media="(min-width: 768px)" srcSet={product.image.tablet} />
-            <img 
-              src={product.image.mobile} 
-              alt={product.name} 
-              className="w-full h-auto object-cover"
-            />
-          </picture>
+          {product.image ? (
+            <picture>
+              <source media="(min-width: 1024px)" srcSet={product.image.desktop} />
+              <source media="(min-width: 768px)" srcSet={product.image.tablet} />
+              <img 
+                src={product.image.mobile} 
+                alt={product.name} 
+                className="w-full h-auto object-cover"
+              />
+            </picture>
+          ) : (
+            <div className="w-full h-60 bg-rose-100 flex items-center justify-center text-rose-400">
+              <span className="text-sm">Image Unavailable</span>
+            </div>
+          )}
         </div>
         
         <div className="absolute -bottom-5">
@@ -50,8 +62,12 @@ export default function ProductCard({ product, cartItem, addToCart, decreaseQuan
       <div className="mt-8">
         <p className="text-rose-500 text-sm">{product.category}</p>
         <h3 className="text-rose-900 font-semibold text-base">{product.name}</h3>
-        <p className="text-red font-semibold text-base">${product.price.toFixed(2)}</p>
+        <p className="text-red font-semibold text-base">
+          {typeof product.price === 'number' ? `$${product.price.toFixed(2)}` : 'Price Unavailable'}
+        </p>
       </div>
     </div>
   );
-}
+});
+
+export default ProductCard;
