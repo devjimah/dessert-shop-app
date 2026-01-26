@@ -20,9 +20,13 @@ export default function OrderConfirmedModal({ cartItems, startNewOrder }) {
                     <div key={item.name}>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <img src={item.image.thumbnail} alt={item.name} className="w-12 h-12 rounded-md object-cover" />
+                                <img 
+                                  src={item.image?.thumbnail || ''} 
+                                  alt={item.name} 
+                                  className="w-12 h-12 rounded-md object-cover bg-rose-100" 
+                                />
                                 <div className="flex flex-col gap-2">
-                                    <h4 className="text-rose-900 font-semibold text-sm truncate max-w-[150px] sm:max-w-[200px]">{item.name}</h4>
+                                    <h4 className="text-rose-900 font-semibold text-sm truncate max-w-37.5 sm:max-w-50">{item.name}</h4>
                                     <div className="flex gap-2 text-sm">
                                         <span className="text-red font-semibold">{item.quantity}x</span>
                                         <span className="text-rose-500">@ ${item.price.toFixed(2)}</span>

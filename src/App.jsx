@@ -1,12 +1,19 @@
-import { useState } from 'react';
-import ProductList from './components/ProductList';
+import { useState, useEffect } from 'react';
+import ProductList from './components/DessertList';
 import Cart from './components/Cart';
 import OrderConfirmedModal from './components/OrderConfirmedModal';
 import data from '../data.json';
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    const savedCart = localStorage.getItem('dessert-shop-cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('dessert-shop-cart', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const addToCart = (product) => {
     setCartItems(prev => {

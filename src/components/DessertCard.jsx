@@ -1,21 +1,31 @@
-import React from 'react';
+
 
 export default function ProductCard({ product, cartItem, addToCart, decreaseQuantity }) {
   const quantity = cartItem ? cartItem.quantity : 0;
+  
+  if (!product) return null;
+
+  const { image, name = "Unknown Dessert", category = "Uncategorized", price } = product;
 
   return (
     <div className="flex flex-col gap-4">
       <div className="relative flex flex-col items-center">
         <div className={`relative w-full overflow-hidden rounded-lg ${quantity > 0 ? 'ring-2 ring-red' : ''}`}>
-          <picture>
-            <source media="(min-width: 1024px)" srcSet={product.image.desktop} />
-            <source media="(min-width: 768px)" srcSet={product.image.tablet} />
-            <img 
-              src={product.image.mobile} 
-              alt={product.name} 
-              className="w-full h-auto object-cover"
-            />
-          </picture>
+          {image ? (
+            <picture>
+              {image.desktop && <source media="(min-width: 1024px)" srcSet={image.desktop} />}
+              {image.tablet && <source media="(min-width: 768px)" srcSet={image.tablet} />}
+              <img 
+                src={image.mobile || ''} 
+                alt={name} 
+                className="w-full h-auto object-cover"
+              />
+            </picture>
+          ) : (
+            <div className="w-full h-[240px] bg-rose-100 flex items-center justify-center text-rose-400">
+              <span className="font-semibold">Image unavailable</span>
+            </div>
+          )}
         </div>
         
         <div className="absolute -bottom-5">
@@ -48,9 +58,11 @@ export default function ProductCard({ product, cartItem, addToCart, decreaseQuan
       </div>
 
       <div className="mt-8">
-        <p className="text-rose-500 text-sm">{product.category}</p>
-        <h3 className="text-rose-900 font-semibold text-base">{product.name}</h3>
-        <p className="text-red font-semibold text-base">${product.price.toFixed(2)}</p>
+        <p className="text-rose-500 text-sm">{category}</p>
+        <h3 className="text-rose-900 font-semibold text-base">{name}</h3>
+        <p className="text-red font-semibold text-base">
+          {typeof price === 'number' ? `$${price.toFixed(2)}` : 'Price unavailable'}
+        </p>
       </div>
     </div>
   );
