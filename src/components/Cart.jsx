@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { useCart } from '../context/CartContext';
 
-const Cart = memo(function Cart({ confirmOrder }) {
+const Cart = memo(function Cart({ confirmOrder, goToCheckout }) {
   const { cartItems, removeFromCart, totalItems, cartTotal, tax, deliveryFee, orderTotal } = useCart();
 
   return (
@@ -63,8 +63,15 @@ const Cart = memo(function Cart({ confirmOrder }) {
             </div>
 
             <button 
+                onClick={goToCheckout}
+                className="w-full bg-rose-100 hover:bg-rose-200 text-rose-900 font-semibold py-3 rounded-full transition-colors mt-4"
+            >
+                View Checkout Summary
+            </button>
+
+            <button 
                 onClick={confirmOrder}
-                className="w-full bg-red hover:bg-red-dark text-white font-semibold py-4 rounded-full transition-colors mt-4"
+                className="w-full bg-red hover:bg-red-dark text-white font-semibold py-4 rounded-full transition-colors"
             >
                 Confirm Order
             </button>

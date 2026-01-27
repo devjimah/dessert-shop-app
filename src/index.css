@@ -32,6 +32,7 @@
   --color-rose-900: #260f08;
   --color-red: #c73b0f;
   --color-red-dark: #952c0b;
+  --color-green-500: #1ea575;
 }
 
 :root {
@@ -55,11 +56,26 @@
   to { opacity: 1; }
 }
 
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .animate-slide-up {
   animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-fade-in {
   animation: fade-in 0.8s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 

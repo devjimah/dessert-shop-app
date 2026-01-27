@@ -1,13 +1,24 @@
-import React, { useMemo, memo } from 'react';
+import React, { useMemo, memo, useCallback } from 'react';
 import { useCart } from '../context/CartContext';
+import useNotification from '../hooks/useNotification';
 
 const ProductCard = memo(function ProductCard({ product }) {
   const { cartItems, addToCart, decreaseQuantity } = useCart();
+  const { addNotification } = useNotification();
   
   const quantity = useMemo(() => {
      const item = cartItems.find(item => item.name === product.name);
      return item ? item.quantity : 0;
   }, [cartItems, product.name]);
+
+  const handleAddToCart = useCallback(() => {
+    addToCart(product);
+    addNotification(`${product.name} added to cart!`, 'success');
+  }, [addToCart, product, addNotification]);
+
+  const handleDecreaseQuantity = useCallback(() => {
+    decreaseQuantity(product.name);
+  }, [decreaseQuantity, product.name]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -33,7 +44,7 @@ const ProductCard = memo(function ProductCard({ product }) {
         <div className="absolute -bottom-5">
            {quantity === 0 ? (
             <button 
-              onClick={() => addToCart(product)}
+              onClick={handleAddToCart}
               className="flex items-center gap-2 bg-white border border-rose-400 rounded-full py-3 px-7 hover:border-red hover:text-red transition-colors"
             >
               <img src="/assets/images/icon-add-to-cart.svg" alt="" />
@@ -42,14 +53,14 @@ const ProductCard = memo(function ProductCard({ product }) {
            ) : (
             <div className="flex items-center justify-between bg-red rounded-full py-3 px-3 w-[160px]">
               <button 
-                onClick={() => decreaseQuantity(product.name)}
+                onClick={handleDecreaseQuantity}
                 className="group flex items-center justify-center w-5 h-5 rounded-full border border-white hover:bg-white transition-colors"
               >
                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="2" fill="none" viewBox="0 0 10 2" className="fill-white group-hover:fill-red"><path d="M0 .375h10v1.25H0V.375Z"/></svg>
               </button>
               <span className="text-white font-semibold text-sm">{quantity}</span>
               <button 
-                onClick={() => addToCart(product)}
+                onClick={handleAddToCart}
                 className="group flex items-center justify-center w-5 h-5 rounded-full border border-white hover:bg-white transition-colors"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 10 10" className="fill-white group-hover:fill-red"><path d="M10 4.375H5.625V0h-1.25v4.375H0v1.25h4.375V10h1.25V5.625H10v-1.25Z"/></svg>
