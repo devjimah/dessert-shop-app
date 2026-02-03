@@ -1,25 +1,32 @@
 import { useState, useMemo, useCallback } from 'react';
+import type { Product, SortOption } from '../types';
 
-export default function useFilter(items) {
-  const [sortBy, setSortBy] = useState('default');
-  const [filterCategory, setFilterCategory] = useState('all');
+interface UseFilterReturn {
+  sortBy: SortOption;
+  setSortBy: (value: SortOption) => void;
+  filterCategory: string;
+  setFilterCategory: (value: string) => void;
+  categories: string[];
+  filteredItems: Product[];
+  resetFilters: () => void;
+}
 
-  // Extract unique categories
+export default function useFilter(items: Product[]): UseFilterReturn {
+  const [sortBy, setSortBy] = useState<SortOption>('default');
+  const [filterCategory, setFilterCategory] = useState<string>('all');
+
   const categories = useMemo(() => {
     const cats = [...new Set(items.map(item => item.category))];
     return ['all', ...cats.sort()];
   }, [items]);
 
-  // Filter and sort items
   const filteredItems = useMemo(() => {
     let result = [...items];
 
-    // Apply category filter
     if (filterCategory !== 'all') {
       result = result.filter(item => item.category === filterCategory);
     }
 
-    // Apply sorting
     switch (sortBy) {
       case 'price-low':
         result.sort((a, b) => a.price - b.price);
@@ -34,7 +41,6 @@ export default function useFilter(items) {
         result.sort((a, b) => b.name.localeCompare(a.name));
         break;
       default:
-        // Keep original order
         break;
     }
 

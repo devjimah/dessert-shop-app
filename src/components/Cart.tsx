@@ -1,7 +1,12 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useCart } from '../context/CartContext';
 
-const Cart = memo(function Cart({ confirmOrder, goToCheckout }) {
+interface CartProps {
+  confirmOrder: () => void;
+  goToCheckout: () => void;
+}
+
+const Cart = memo(function Cart({ confirmOrder, goToCheckout }: CartProps) {
   const { cartItems, removeFromCart, totalItems, cartTotal, tax, deliveryFee, orderTotal } = useCart();
 
   return (

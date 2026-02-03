@@ -1,7 +1,12 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useCart } from '../context/CartContext';
 
-const CheckoutSummary = memo(function CheckoutSummary({ onBack, onConfirmOrder }) {
+interface CheckoutSummaryProps {
+  onBack: () => void;
+  onConfirmOrder: () => void;
+}
+
+const CheckoutSummary = memo(function CheckoutSummary({ onBack, onConfirmOrder }: CheckoutSummaryProps) {
   const { cartItems, cartTotal, tax, deliveryFee, orderTotal, totalItems } = useCart();
 
   if (cartItems.length === 0) {
@@ -38,7 +43,6 @@ const CheckoutSummary = memo(function CheckoutSummary({ onBack, onConfirmOrder }
           <h1 className="text-3xl font-bold text-rose-900 mb-2">Checkout Summary</h1>
           <p className="text-rose-500 mb-8">{totalItems} item{totalItems !== 1 ? 's' : ''} in your cart</p>
 
-          {/* Order Items */}
           <div className="border-b border-rose-100 pb-6 mb-6">
             <h2 className="font-semibold text-rose-900 mb-4">Order Items</h2>
             <div className="flex flex-col gap-4">
@@ -63,7 +67,6 @@ const CheckoutSummary = memo(function CheckoutSummary({ onBack, onConfirmOrder }
             </div>
           </div>
 
-          {/* Price Breakdown */}
           <div className="flex flex-col gap-3 mb-8">
             <div className="flex justify-between text-rose-900">
               <span>Subtotal</span>
@@ -84,7 +87,6 @@ const CheckoutSummary = memo(function CheckoutSummary({ onBack, onConfirmOrder }
             </div>
           </div>
 
-          {/* Carbon Neutral Badge */}
           <div className="flex items-center justify-center gap-2 bg-rose-50 p-4 rounded-lg mb-6">
             <img src="/assets/images/icon-carbon-neutral.svg" alt="" />
             <p className="text-rose-900 text-sm">
@@ -92,7 +94,6 @@ const CheckoutSummary = memo(function CheckoutSummary({ onBack, onConfirmOrder }
             </p>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex flex-col gap-3">
             <button
               onClick={onConfirmOrder}

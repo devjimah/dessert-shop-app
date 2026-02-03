@@ -1,8 +1,13 @@
-import React, { memo } from 'react';
+import { memo, type ChangeEvent } from 'react';
 import ProductCard from './ProductCard';
 import useFilter from '../hooks/useFilter';
+import type { Product, SortOption } from '../types';
 
-const ProductList = memo(function ProductList({ products }) {
+interface ProductListProps {
+  products: Product[];
+}
+
+const ProductList = memo(function ProductList({ products }: ProductListProps) {
   const { 
     sortBy, 
     setSortBy, 
@@ -13,11 +18,18 @@ const ProductList = memo(function ProductList({ products }) {
     resetFilters 
   } = useFilter(products);
 
+  const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setFilterCategory(e.target.value);
+  };
+
+  const handleSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(e.target.value as SortOption);
+  };
+
   return (
     <div>
       <h1 className="text-4xl font-bold text-rose-900 mb-6">Desserts</h1>
       
-      {/* Filter and Sort Controls */}
       <div className="flex flex-wrap items-center gap-4 mb-8 p-4 bg-white rounded-lg">
         <div className="flex items-center gap-2">
           <label htmlFor="category" className="text-sm font-medium text-rose-900">
@@ -26,7 +38,7 @@ const ProductList = memo(function ProductList({ products }) {
           <select
             id="category"
             value={filterCategory}
-            onChange={(e) => setFilterCategory(e.target.value)}
+            onChange={handleCategoryChange}
             className="px-3 py-2 border border-rose-200 rounded-lg text-sm text-rose-900 bg-white focus:outline-none focus:ring-2 focus:ring-red focus:border-transparent"
           >
             {categories.map((cat) => (
@@ -44,7 +56,7 @@ const ProductList = memo(function ProductList({ products }) {
           <select
             id="sort"
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
+            onChange={handleSortChange}
             className="px-3 py-2 border border-rose-200 rounded-lg text-sm text-rose-900 bg-white focus:outline-none focus:ring-2 focus:ring-red focus:border-transparent"
           >
             <option value="default">Default</option>

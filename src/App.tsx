@@ -7,27 +7,30 @@ import CheckoutSummary from './views/CheckoutSummary';
 import data from '../data.json';
 import { CartProvider, useCart } from './context/CartContext';
 import { NotificationProvider } from './context/NotificationContext';
+import type { Product } from './types';
+
+type ViewType = 'shop' | 'checkout';
 
 function AppContent() {
-  const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
-  const [currentView, setCurrentView] = useState('shop'); // 'shop' | 'checkout'
+  const [isOrderConfirmed, setIsOrderConfirmed] = useState<boolean>(false);
+  const [currentView, setCurrentView] = useState<ViewType>('shop');
   const { clearCart } = useCart();
 
-  const confirmOrder = () => {
+  const confirmOrder = (): void => {
     setIsOrderConfirmed(true);
     setCurrentView('shop');
   };
 
-  const startNewOrder = () => {
+  const startNewOrder = (): void => {
     clearCart();
     setIsOrderConfirmed(false);
   };
 
-  const goToCheckout = () => {
+  const goToCheckout = (): void => {
     setCurrentView('checkout');
   };
 
-  const goToShop = () => {
+  const goToShop = (): void => {
     setCurrentView('shop');
   };
 
@@ -58,7 +61,7 @@ function AppContent() {
       )}
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
         <div className="flex-1">
-          <ProductList products={data} />
+          <ProductList products={data as Product[]} />
         </div>
         <Cart confirmOrder={confirmOrder} goToCheckout={goToCheckout} />
       </div>

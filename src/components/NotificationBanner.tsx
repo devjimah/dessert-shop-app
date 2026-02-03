@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import useNotification from '../hooks/useNotification';
 
 const NotificationBanner = memo(function NotificationBanner() {

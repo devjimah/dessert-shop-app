@@ -1,7 +1,11 @@
-import React, { memo } from 'react';
+import { memo } from 'react';
 import { useCart } from '../context/CartContext';
 
-const OrderConfirmedModal = memo(function OrderConfirmedModal({ startNewOrder }) {
+interface OrderConfirmedModalProps {
+  startNewOrder: () => void;
+}
+
+const OrderConfirmedModal = memo(function OrderConfirmedModal({ startNewOrder }: OrderConfirmedModalProps) {
   const { cartItems, orderTotal } = useCart();
 
   return (
@@ -21,7 +25,7 @@ const OrderConfirmedModal = memo(function OrderConfirmedModal({ startNewOrder })
                     <div key={item.name}>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <img src={item.image.thumbnail} alt={item.name} className="w-12 h-12 rounded-md object-cover" />
+                                <img src={item.image?.thumbnail} alt={item.name} className="w-12 h-12 rounded-md object-cover" />
                                 <div className="flex flex-col gap-2">
                                     <h4 className="text-rose-900 font-semibold text-sm truncate max-w-[150px] sm:max-w-[200px]">{item.name}</h4>
                                     <div className="flex gap-2 text-sm">

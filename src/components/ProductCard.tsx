@@ -1,8 +1,13 @@
-import React, { useMemo, memo, useCallback } from 'react';
+import { useMemo, memo, useCallback } from 'react';
 import { useCart } from '../context/CartContext';
 import useNotification from '../hooks/useNotification';
+import type { Product } from '../types';
 
-const ProductCard = memo(function ProductCard({ product }) {
+interface ProductCardProps {
+  product: Product;
+}
+
+const ProductCard = memo(function ProductCard({ product }: ProductCardProps) {
   const { cartItems, addToCart, decreaseQuantity } = useCart();
   const { addNotification } = useNotification();
   
